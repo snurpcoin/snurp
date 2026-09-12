@@ -179,14 +179,14 @@ footer .socials a{text-decoration:none}
 
   <section id="meter">
     <div class="sec-head">
-      <div class="eyebrow">Live from Robinhood Chain</div>
+      <div class="eyebrow">Live from Robinhood Chain RPC</div>
       <h2>Snurp-o-meter</h2>
     </div>
     <div class="meter">
       <div class="tile"><div class="lbl">Tokens burned</div><div class="val" id="burned">—</div><div class="unit">SNURP · dead address</div></div>
       <div class="tile"><div class="lbl">Supply left</div><div class="val" id="supply">—</div><div class="unit">of 1,000,000,000</div></div>
       <div class="tile"><div class="lbl">Burned so far</div><div class="val" id="pct">—</div><div class="unit">% of total supply</div></div>
-      <div class="tile"><div class="lbl">Holders</div><div class="val" id="holders">—</div><div class="unit">wallets</div></div>
+      <div class="tile"><div class="lbl">Next meal</div><div class="val" id="meal">—</div><div class="unit">ETH in fees waiting to be snurped</div></div>
     </div>
     <div class="status"><span class="dot egg" id="dot"></span><span id="statusText">Snurp is still an egg. Stats go live the moment the token launches.</span></div>
     <div style="margin-top:14px" class="addr"><span id="ca">Contract address: not launched yet</span><button id="copy" type="button" hidden>Copy</button></div>
@@ -229,13 +229,25 @@ const X_URL    = "";                     // https://x.com/...
 // ------------------------------------
 const BURN = "0x000000000000000000000000000000000000dEaD";
 const SCAN = "https://robinhoodchain.blockscout.com";
+const RPC  = "https://rpc.mainnet.chain.robinhood.com";
+const ESCROW = "0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e";          // Pons v2 fee escrow
+const CREATOR = "0xa46368CF01a7dC13d8D74f982BC01295d15B69de";         // Snurp's stomach (creator fee wallet)
 const TOTAL = 1_000_000_000;
-const fmt = n => n >= 1e9 ? (n/1e9).toFixed(2)+"B" : n >= 1e6 ? (n/1e6).toFixed(1)+"M" : n >= 1e3 ? (n/1e3).toFixed(1)+"k" : Math.round(n).toLocaleString();
+const fmt = n => n >= 1e9 ? (n/1e9).toFixed(2)+"B" : n >= 1e6 ? (n/1e6).toFixed(1)+"M" : n >= 1e3 ? (n/1e3).toFixed(1)+"k" : n.toLocaleString(undefined,{maximumFractionDigits:4});
 const $ = id => document.getElementById(id);
 
 if (PONS_URL) { $("buyBtn").href = PONS_URL; $("ponsLink").href = PONS_URL; }
 if (TELEGRAM) { const t = $("tgLink"); t.href = TELEGRAM; t.hidden = false; }
 if (X_URL) $("xLink").href = X_URL;
+
+const pad = a => a.toLowerCase().replace("0x","").padStart(64,"0");
+async function call(to, data) {
+  const r = await fetch(RPC, { method:"POST", headers:{"content-type":"application/json"},
+    body: JSON.stringify({ jsonrpc:"2.0", id:1, method:"eth_call", params:[{ to, data }, "latest"] }) }).then(r => r.json());
+  if (r.error) throw new Error(r.error.message);
+  return BigInt(r.result);
+}
+const toEth = w => Number(w) / 1e18;
 
 async function load() {
   if (!CONTRACT) return;
@@ -244,25 +256,21 @@ async function load() {
   $("copy").onclick = async () => { try { await navigator.clipboard.writeText(CONTRACT); $("copy").textContent = "Copied"; setTimeout(()=>$("copy").textContent="Copy",1500);} catch(e){} };
   $("scanLink").href = SCAN + "/token/" + CONTRACT;
   try {
-    const tok = await fetch(SCAN + "/api/v2/tokens/" + CONTRACT).then(r => r.json());
-    const dec = Number(tok.decimals || 18);
-    const supply = Number(tok.total_supply || 0) / 10 ** dec;
-    let burned = 0;
-    try {
-      const bal = await fetch(SCAN + "/api/v2/addresses/" + BURN + "/token-balances").then(r => r.json());
-      const row = (bal || []).find(b => (b.token?.address || "").toLowerCase() === CONTRACT.toLowerCase());
-      if (row) burned = Number(row.value) / 10 ** dec;
-    } catch (e) {}
-    const circulating = supply - burned;
-    $("burned").textContent = fmt(burned);
-    $("supply").textContent = fmt(circulating);
-    $("pct").textContent = TOTAL ? (burned / TOTAL * 100).toFixed(2) : "—";
-    $("holders").textContent = fmt(Number(tok.holders || 0));
+    const [supply, burned, meal] = await Promise.all([
+      call(CONTRACT, "0x18160ddd"),                       // totalSupply()
+      call(CONTRACT, "0x70a08231" + pad(BURN)),           // balanceOf(dead)
+      call(ESCROW,   "0x70a08231" + pad(CREATOR)),        // escrow.balanceOf(creator)
+    ]);
+    const b = toEth(burned), s = toEth(supply);
+    $("burned").textContent = fmt(b);
+    $("supply").textContent = fmt(s - b);
+    $("pct").textContent = (b / TOTAL * 100).toFixed(3);
+    $("meal").textContent = toEth(meal).toFixed(4);
     $("dot").className = "dot live";
-    $("statusText").textContent = "Live. Read from Blockscout at " + new Date().toLocaleTimeString() + ". Refreshes every minute.";
+    $("statusText").textContent = "Live. Read from the chain at " + new Date().toLocaleTimeString() + ". Refreshes every minute.";
   } catch (e) {
     $("dot").className = "dot";
-    $("statusText").textContent = "Couldn't reach Blockscout right now. Try again in a minute.";
+    $("statusText").textContent = "Couldn't reach the Robinhood Chain RPC right now. Try again in a minute.";
   }
 }
 load();
