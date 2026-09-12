@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snurp</title>
+<meta name="description" content="Snurp eats fees. Snurp burns supply. Snurp never stops. A fair-launch creature on Robinhood Chain.">
+<meta property="og:title" content="Snurp">
+<meta property="og:description" content="Snurp eats fees. Snurp burns supply. Snurp never stops.">
+<meta property="og:image" content="snurp.png">
+<link rel="icon" href="snurp.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titan+One&family=Nunito:wght@500;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ink:#0d1117; --deep:#121822; --surface:#182130; --line:#243043;
+  --mint:#78e8c4; --mint-dim:#3ea88a; --snout:#ffaa5a; --coin:#ffdc5a;
+  --text:#e9f5f0; --muted:#8fa39b; --blush:#ff8c96;
+  --display:'Titan One', 'Arial Black', Impact, sans-serif;
+  --body:'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:var(--mint)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;text-wrap:balance;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint-dim)}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:22px;color:var(--mint);text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:50%}
+.nav-links{display:flex;gap:22px;font-weight:700;font-size:15px}
+.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links a:hover,.nav-links a:focus-visible{color:var(--text)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:40px 0 56px}
+.hero h1{font-size:clamp(56px,9vw,112px);line-height:.92;color:var(--mint);text-shadow:0 6px 0 #1e5a4a}
+.hero .tag{font-size:clamp(20px,2.6vw,27px);font-weight:800;line-height:1.25;margin:22px 0 10px;max-width:22ch}
+.hero p.sub{color:var(--muted);max-width:52ch;margin:0 0 28px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:800;text-decoration:none;font-size:16px;border:2px solid transparent;transition:transform .12s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-snout{background:var(--snout);color:#3a1d05;box-shadow:0 5px 0 #b4692a}
+.btn-ghost{border-color:var(--line);color:var(--text);background:var(--deep)}
+.btn:focus-visible{outline:3px solid var(--coin);outline-offset:3px}
+.stage{position:relative;aspect-ratio:1;max-width:520px;margin:0 auto;width:100%}
+.stage img{width:100%;height:auto;border-radius:32px;display:block;position:relative;z-index:2}
+.coin{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--coin);border:3px solid #c99a1e;z-index:1;opacity:0;
+  left:var(--x0);top:var(--y0);animation:snurp 3.6s linear infinite;animation-delay:var(--d)}
+.coin::after{content:"";position:absolute;left:8px;top:9px;width:6px;height:3px;background:#c99a1e;border-radius:2px}
+@keyframes snurp{
+  0%{opacity:0;transform:translate(0,0) scale(1)}
+  10%{opacity:1}
+  85%{opacity:1;transform:translate(var(--dx),var(--dy)) scale(.55)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}
+}
+@media (prefers-reduced-motion:reduce){.coin{animation:none;opacity:.9}.btn{transition:none}}
+
+/* loop */
+section{padding:56px 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.sec-head h2{font-size:clamp(30px,4.4vw,46px)}
+.loop{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:36px;align-items:center}
+.ring{width:100%;height:auto;display:block}
+.steps{display:grid;gap:14px;counter-reset:s}
+.step{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;padding:16px 18px;border-radius:18px;background:var(--deep);border:1px solid var(--line)}
+.step .n{font-family:var(--display);font-size:28px;color:var(--snout);line-height:1}
+.step b{display:block;font-size:17px;margin-bottom:2px}
+.step span{color:var(--muted);font-size:15px}
+.rule{margin-top:22px;padding:18px 20px;border-radius:18px;background:linear-gradient(135deg,#17352d,#122029);border:1px solid #2a5a4b;font-weight:700}
+.rule code{font-family:var(--mono);color:var(--coin);font-size:14px}
+
+/* meter */
+.meter{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{padding:20px 20px 16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);position:relative;overflow:hidden}
+.tile .lbl{font-size:13px;color:var(--muted);font-weight:700;margin-bottom:6px}
+.tile .val{font-family:var(--display);font-size:clamp(26px,3.4vw,38px);color:var(--coin);font-variant-numeric:tabular-nums;line-height:1.05}
+.tile .unit{font-family:var(--mono);font-size:12px;color:var(--mint-dim);margin-top:6px}
+.status{margin-top:14px;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.dot.live{background:var(--mint);box-shadow:0 0 0 4px rgba(120,232,196,.18)}
+.dot.egg{background:var(--snout)}
+.addr{font-family:var(--mono);font-size:13px;word-break:break-all;background:var(--deep);border:1px solid var(--line);padding:12px 14px;border-radius:12px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.addr button{font:inherit;font-family:var(--body);font-weight:800;background:var(--mint);color:#0b2a21;border:0;border-radius:8px;padding:6px 10px;cursor:pointer}
+
+/* buy */
+.buy{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{padding:22px;border-radius:20px;background:var(--deep);border:1px solid var(--line)}
+.card h3{font-size:22px;color:var(--mint);margin-bottom:8px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card p a{font-weight:700}
+.chain{margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-family:var(--mono);font-size:13px;color:var(--muted);padding:16px 18px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.chain span:nth-child(odd){color:var(--mint-dim)}
+
+/* footer */
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .row{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;margin-bottom:18px}
+footer .socials{display:flex;gap:14px;font-weight:700}
+footer .socials a{text-decoration:none}
+.disc{max-width:70ch}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding-top:16px}
+  .stage{order:-1;max-width:380px}
+  .loop{grid-template-columns:1fr}
+  .meter{grid-template-columns:repeat(2,1fr)}
+  .buy{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="#"><img src="snurp.png" alt="">Snurp</a>
+    <div class="nav-links"><a href="#loop">The loop</a><a href="#meter">Snurp-o-meter</a><a href="#buy">How to buy</a></div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Fair launch · Robinhood Chain · Pons</div>
+      <h1>SNURP</h1>
+      <div class="tag">Snurp eats fees. Snurp burns supply. Snurp never stops.</div>
+      <p class="sub">Every trade pays a 1% pool fee. Snurp spends every cent of the creator&#39;s share buying $SNURP and burning it. A separate, disclosed 1% builder tax pays for the site, the bot and marketing. The more you trade, the hungrier Snurp gets, the smaller the supply becomes.</p>
+      <div class="cta-row">
+        <a class="btn btn-snout" id="buyBtn" href="https://www.ponsfamily.com/launchpad" target="_blank" rel="noopener">Snurp on Pons →</a>
+        <a class="btn btn-ghost" href="#loop">How it stays alive</a>
+      </div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <img src="snurp.png" alt="Snurp, a round mint creature snurping a coin through its trunk">
+      <div class="coin" style="--x0:96%;--y0:6%;--dx:-70px;--dy:110px;--d:0s"></div>
+      <div class="coin" style="--x0:88%;--y0:-4%;--dx:-40px;--dy:150px;--d:1.2s"></div>
+      <div class="coin" style="--x0:100%;--y0:20%;--dx:-95px;--dy:90px;--d:2.4s"></div>
+    </div>
+  </header>
+
+  <section id="loop">
+    <div class="sec-head">
+      <div class="eyebrow">Why it doesn't die</div>
+      <h2>The Snurp loop</h2>
+    </div>
+    <div class="loop">
+      <svg class="ring" viewBox="0 0 400 400" role="img" aria-label="Circular loop: trade, fee, snurp buys, burn, supply shrinks, repeat">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#78e8c4"/></marker>
+        </defs>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#243043" stroke-width="26"/>
+        <path d="M200 50 A150 150 0 0 1 350 200" fill="none" stroke="#78e8c4" stroke-width="10" marker-end="url(#arr)"/>
+        <path d="M350 200 A150 150 0 0 1 200 350" fill="none" stroke="#ffaa5a" stroke-width="10" marker-end="url(#arr)"/>
+        <path d="M200 350 A150 150 0 0 1 50 200" fill="none" stroke="#ff8c96" stroke-width="10" marker-end="url(#arr)"/>
+        <path d="M50 200 A150 150 0 0 1 200 50" fill="none" stroke="#ffdc5a" stroke-width="10" marker-end="url(#arr)"/>
+        <g font-family="Nunito, sans-serif" font-weight="800" font-size="15" fill="#e9f5f0" text-anchor="middle">
+          <text x="200" y="26">trade</text>
+          <text x="373" y="205">1% fee</text>
+          <text x="200" y="388">Snurp buys</text>
+          <text x="30" y="205">burn</text>
+        </g>
+        <g font-family="Titan One, sans-serif" font-size="34" fill="#78e8c4" text-anchor="middle">
+          <text x="200" y="192">supply</text>
+          <text x="200" y="232">shrinks</text>
+        </g>
+      </svg>
+      <div>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><div><b>Someone trades $SNURP</b><span>Every buy or sell on Pons pays a 1% pool fee (70% of it goes to the creator wallet) plus a 1% builder tax.</span></div></div>
+          <div class="step"><div class="n">2</div><div><b>Snurp eats the fee</b><span>The creator wallet is Snurp's stomach. Every claim of the pool-fee share goes straight back into buying $SNURP.</span></div></div>
+          <div class="step"><div class="n">3</div><div><b>Snurp burns what it bought</b><span>Bought tokens are sent to the dead address. Gone forever. Every burn is public on Blockscout.</span></div></div>
+          <div class="step"><div class="n">4</div><div><b>Repeat, forever</b><span>Liquidity is locked at graduation and can never be withdrawn. Volume feeds Snurp; Snurp shrinks supply.</span></div></div>
+        </div>
+        <div class="rule">Rule of Snurp: <code>100% of the pool-fee share → buy $SNURP → burn</code>. The 1% builder tax is the only thing the team keeps, and it is written into the launch on chain. Dev never sells. Dev tokens only ever move to the burn address. The bot that does it is <a href="https://github.com/snurpcoin/snurp/tree/main/bot" target="_blank" rel="noopener">open source</a>; every burn is a public transaction.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="meter">
+    <div class="sec-head">
+      <div class="eyebrow">Live from Robinhood Chain</div>
+      <h2>Snurp-o-meter</h2>
+    </div>
+    <div class="meter">
+      <div class="tile"><div class="lbl">Tokens burned</div><div class="val" id="burned">—</div><div class="unit">SNURP · dead address</div></div>
+      <div class="tile"><div class="lbl">Supply left</div><div class="val" id="supply">—</div><div class="unit">of 1,000,000,000</div></div>
+      <div class="tile"><div class="lbl">Burned so far</div><div class="val" id="pct">—</div><div class="unit">% of total supply</div></div>
+      <div class="tile"><div class="lbl">Holders</div><div class="val" id="holders">—</div><div class="unit">wallets</div></div>
+    </div>
+    <div class="status"><span class="dot egg" id="dot"></span><span id="statusText">Snurp is still an egg. Stats go live the moment the token launches.</span></div>
+    <div style="margin-top:14px" class="addr"><span id="ca">Contract address: not launched yet</span><button id="copy" type="button" hidden>Copy</button></div>
+  </section>
+
+  <section id="buy">
+    <div class="sec-head">
+      <div class="eyebrow">Three steps</div>
+      <h2>How to feed Snurp</h2>
+    </div>
+    <div class="buy">
+      <div class="card"><h3>1. Add Robinhood Chain</h3><p>In OKX Wallet, MetaMask or Rabby, add the network below. It's an Arbitrum-stack L2, gas is paid in ETH and costs almost nothing.</p></div>
+      <div class="card"><h3>2. Bridge a little ETH</h3><p>Send ETH from Ethereum, Arbitrum or Base through the <a href="https://robinhood.com/us/en/support/articles/robinhood-chain-mainnet/" target="_blank" rel="noopener">official Robinhood Chain bridge</a>. 0.01 ETH is plenty to start.</p></div>
+      <div class="card"><h3>3. Snurp on Pons</h3><p>Open the $SNURP page on <a href="https://www.ponsfamily.com/launchpad" target="_blank" rel="noopener">pons.family</a>, pick an amount, approve in your wallet. Liquidity is locked forever once the curve graduates.</p></div>
+    </div>
+    <div class="chain">
+      <span>Network</span><span>Robinhood Chain</span>
+      <span>Chain ID</span><span>4663</span>
+      <span>RPC</span><span>https://rpc.mainnet.chain.robinhood.com</span>
+      <span>Currency</span><span>ETH</span>
+      <span>Explorer</span><span>https://robinhoodchain.blockscout.com</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <div class="brand" style="font-size:18px"><img src="snurp.png" alt="">snurp snurp.</div>
+      <div class="socials"><a id="xLink" href="https://x.com/search?q=%24SNURP" target="_blank" rel="noopener">X</a><a id="tgLink" href="#" hidden>Telegram</a><a id="ponsLink" href="https://www.ponsfamily.com/launchpad" target="_blank" rel="noopener">Pons</a><a id="scanLink" href="https://robinhoodchain.blockscout.com" target="_blank" rel="noopener">Blockscout</a><a href="https://github.com/snurpcoin/snurp" target="_blank" rel="noopener">GitHub</a></div>
+    </div>
+    <p class="disc">$SNURP is a memecoin with no intrinsic value, no team allocation and no promises. Fees: 1% pool fee (creator share burned) and 1% builder tax (kept by the team, disclosed here). It exists to eat fees and burn tokens. Tokens can go to zero. Nothing here is financial advice. Robinhood Chain is a public network; Snurp is not affiliated with Robinhood or Pons.</p>
+  </footer>
+</div>
+
+<script>
+// ---- fill these in after launch ----
+const CONTRACT = "";                     // $SNURP token address on Robinhood Chain
+const PONS_URL = "";                     // https://www.ponsfamily.com/launchpad/<address>
+const TELEGRAM = "";                     // https://t.me/...
+const X_URL    = "";                     // https://x.com/...
+// ------------------------------------
+const BURN = "0x000000000000000000000000000000000000dEaD";
+const SCAN = "https://robinhoodchain.blockscout.com";
+const TOTAL = 1_000_000_000;
+const fmt = n => n >= 1e9 ? (n/1e9).toFixed(2)+"B" : n >= 1e6 ? (n/1e6).toFixed(1)+"M" : n >= 1e3 ? (n/1e3).toFixed(1)+"k" : Math.round(n).toLocaleString();
+const $ = id => document.getElementById(id);
+
+if (PONS_URL) { $("buyBtn").href = PONS_URL; $("ponsLink").href = PONS_URL; }
+if (TELEGRAM) { const t = $("tgLink"); t.href = TELEGRAM; t.hidden = false; }
+if (X_URL) $("xLink").href = X_URL;
+
+async function load() {
+  if (!CONTRACT) return;
+  $("ca").textContent = CONTRACT;
+  $("copy").hidden = false;
+  $("copy").onclick = async () => { try { await navigator.clipboard.writeText(CONTRACT); $("copy").textContent = "Copied"; setTimeout(()=>$("copy").textContent="Copy",1500);} catch(e){} };
+  $("scanLink").href = SCAN + "/token/" + CONTRACT;
+  try {
+    const tok = await fetch(SCAN + "/api/v2/tokens/" + CONTRACT).then(r => r.json());
+    const dec = Number(tok.decimals || 18);
+    const supply = Number(tok.total_supply || 0) / 10 ** dec;
+    let burned = 0;
+    try {
+      const bal = await fetch(SCAN + "/api/v2/addresses/" + BURN + "/token-balances").then(r => r.json());
+      const row = (bal || []).find(b => (b.token?.address || "").toLowerCase() === CONTRACT.toLowerCase());
+      if (row) burned = Number(row.value) / 10 ** dec;
+    } catch (e) {}
+    const circulating = supply - burned;
+    $("burned").textContent = fmt(burned);
+    $("supply").textContent = fmt(circulating);
+    $("pct").textContent = TOTAL ? (burned / TOTAL * 100).toFixed(2) : "—";
+    $("holders").textContent = fmt(Number(tok.holders || 0));
+    $("dot").className = "dot live";
+    $("statusText").textContent = "Live. Read from Blockscout at " + new Date().toLocaleTimeString() + ". Refreshes every minute.";
+  } catch (e) {
+    $("dot").className = "dot";
+    $("statusText").textContent = "Couldn't reach Blockscout right now. Try again in a minute.";
+  }
+}
+load();
+if (CONTRACT) setInterval(load, 60_000);
+</script>
+</body>
+</html>

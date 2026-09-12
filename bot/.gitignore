@@ -1,0 +1,4 @@
+node_modules/
+.env
+burns.json
+.DS_Store
