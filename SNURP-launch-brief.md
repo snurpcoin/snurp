@@ -29,7 +29,7 @@ $SNURP with them. It never stops eating, so the supply never stops shrinking.
 - X profile: create @snurpcoin first (I can't create accounts), or leave blank and add later
 - Telegram: optional
 - Paired asset: ETH (wallet only holds ETH; dev buy is in ETH; graduation at 4.2 ETH)
-- Developer buy: 0.006 ETH suggested (wallet 0.012 ETH; keep ~0.005 for the bot's gas and first claims)
+- Developer buy: 0.04 ETH (wallet 0.072 ETH after bridging on 2026-09-12; keep ~0.03 for the bot’s gas and first claims)
 - Creator tax: 1% (creatorTaxBps = 100). If the v2 form hides it, look for an Advanced / creator tax field; it is a launch param.
 - Buyback toggle: turn ON if the form offers it (protocol-level buybacks on top of ours)
 
