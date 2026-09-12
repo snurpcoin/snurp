@@ -19,6 +19,10 @@ const GAS_KEEP  = parseEther(process.env.GAS_RESERVE_ETH || '0.0005');
 const SLIPPAGE  = Number(process.env.SLIPPAGE_BPS || 500);
 const DRY       = process.env.DRY_RUN === '1';
 const LOG       = process.env.LOG_FILE || './burns.json';
+// Creator receives 0.7% of volume (70% of the 1% pool fee) + 1.0% creator tax = 1.7%.
+// The Rule of Snurp burns the pool-fee share only: 0.7 / 1.7 = 41.18%. The rest is the builder tax and goes to PAYOUT_TO.
+const BURN_BPS  = Number(process.env.BURN_SHARE_BPS || 4118);
+const PAYOUT_TO = process.env.PAYOUT_TO ? getAddress(process.env.PAYOUT_TO) : null;
 
 const chain = { id: 4663, name: 'Robinhood Chain', nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 }, rpcUrls: { default: { http: [RPC] } } };
 const account = privateKeyToAccount(process.env.SIGNER_KEY);
@@ -71,10 +75,17 @@ async function tick() {
     log('claimed', claimHash);
   }
 
-  // 2. spend everything above the gas reserve on $SNURP
+  // 2. split the claim: burn share buys $SNURP, builder share goes to PAYOUT_TO
+  if (claimable < MIN_CLAIM) { log('nothing claimed this round'); return; }
+  const spend = claimable * BigInt(BURN_BPS) / 10_000n;
+  const payout = claimable - spend;
+  if (PAYOUT_TO && payout > 0n) {
+    const h = DRY ? null : await wal.sendTransaction({ to: PAYOUT_TO, value: payout, account });
+    if (!DRY) await pub.waitForTransactionReceipt({ hash: h });
+    log(`builder share ${formatEther(payout)} ETH → ${PAYOUT_TO}`, h ?? '(dry)');
+  }
   const eth = await pub.getBalance({ address: account.address });
-  const spend = eth > GAS_KEEP ? eth - GAS_KEEP : 0n;
-  if (spend < MIN_CLAIM) { log(`nothing to spend (balance ${formatEther(eth)} ETH)`); return; }
+  if (eth - spend < GAS_KEEP) { log(`skip: would dip below gas reserve (balance ${formatEther(eth)} ETH)`); return; }
 
   const graduated = launch.phase >= 2 || (await pub.readContract({ address: curve, abi: curveAbi, functionName: 'readyToGraduate' }));
   let buyHash = null;
@@ -97,7 +108,7 @@ async function tick() {
   if (bal === 0n) { log('no tokens to burn'); return; }
   const burnHash = await send({ address: TOKEN, abi: erc20Abi, functionName: 'transfer', args: [BURN, bal], account });
   log(`burned ${formatEther(bal)} SNURP`, burnHash);
-  record({ at: new Date().toISOString(), claimedEth: formatEther(claimable), spentEth: formatEther(spend), burned: formatEther(bal), claimHash, buyHash, burnHash });
+  record({ at: new Date().toISOString(), claimedEth: formatEther(claimable), burnShareEth: formatEther(spend), builderShareEth: formatEther(claimable - spend), burned: formatEther(bal), claimHash, buyHash, burnHash });
 }
 
 log(`Snurp bot online. wallet ${account.address} token ${TOKEN} every ${INTERVAL / 60000} min ${DRY ? '(DRY RUN)' : ''}`);

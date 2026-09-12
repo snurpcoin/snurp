@@ -36,10 +36,12 @@ The bot in [`bot/`](bot/) is what executes the rule. It is open source so anyone
 
 ## Running the bot
 
+The bot signs with a **dedicated bot wallet**, not the launch wallet. On the Pons token page, use *Transfer* next to the fee recipient to point creator fees at the bot wallet, and fund it with ~0.005 ETH for gas. Each claim is split: the pool-fee share (0.7 of every 1.7 claimed) is bought and burned, the builder-tax share is forwarded to `PAYOUT_TO`. The dev bag never leaves the launch wallet.
+
 ```bash
 cd bot
 npm install
-cp .env.example .env   # fill in SIGNER_KEY (creator wallet) and TOKEN ($SNURP address)
+cp .env.example .env   # SIGNER_KEY = a dedicated bot wallet, PAYOUT_TO = your main wallet
 npm run dry            # prints what it would do
 npm start              # sends real transactions every INTERVAL_MIN minutes
 ```
