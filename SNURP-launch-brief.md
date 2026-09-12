@@ -48,3 +48,11 @@ Launch fee 0.0005 ETH · gas ≈ 0.1 gwei · factory.canLaunch(wallet) = true (c
 Pons v2 factory 0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e · fee escrow 0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e
 meme hook 0xE5e702641Ea86F4ae6cC3cDaeD2B886f976Be044 · Uniswap v4 PoolManager 0x8366a39cc670b4001a1121b8f6a443a643e40951
 Universal Router 0x8876789976decbfcbbbe364623c63652db8c0904 · V4Quoter 0x8dc178efb8111bb0973dd9d722ebeff267c98f94
+
+## LAUNCHED 2026-09-12
+- Token: 0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53
+- Curve: 0x41CBa36e0C2b960A104b95125D592a1d9Ee8Ea07
+- Launch tx: 0x5a150ef7e46886644e51833bd43fe7d35c658d4276476824768a8332775643c9 (block 60925302)
+- Pons page: https://www.ponsfamily.com/launchpad/0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53
+- Blockscout: https://robinhoodchain.blockscout.com/token/0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53
+- Terms on chain: ETH pair, 1% pool fee + 1% creator tax, dev buy 0.04 ETH, graduation 4.2 ETH

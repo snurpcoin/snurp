@@ -4,6 +4,16 @@
 
 Snurp is a fair-launch memecoin on [Robinhood Chain](https://robinhood.com/us/en/support/articles/robinhood-chain-mainnet/) (chain id 4663), launched on [Pons](https://www.ponsfamily.com). This repository is the whole project: the mascot, the website, and the bot that does the burning. Everything Snurp promises is verifiable on chain.
 
+## Live
+
+| | |
+|---|---|
+| Token | `0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53` |
+| Bonding curve | `0x41CBa36e0C2b960A104b95125D592a1d9Ee8Ea07` |
+| Pons | https://www.ponsfamily.com/launchpad/0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53 |
+| Explorer | https://robinhoodchain.blockscout.com/token/0x1204bc9E2EdCED1eF6f0dE2b04eEB756ca43ab53 |
+| Site | https://snurpcoin.github.io/snurp/ |
+
 ## The Rule of Snurp
 
 1. Every trade on Pons pays a 1% pool fee. 70% of it accrues to the creator wallet in the Pons v2 fee escrow. A separate 1% creator tax (`creatorTaxBps = 100`, set at launch and visible on chain) pays the team; it is the only fee the team keeps.
